@@ -12,7 +12,7 @@
 </head>
 <body class="bg-light">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark text-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark text-white box-shadow">
             <div class="container">
                 <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">Utah CAPS</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -42,7 +42,7 @@
             </div>
         </nav>
     </header>
-    <div @*class="container"*@>
+    <div>
         <main role="main" class="pb-3 bg-light rounded">
             @RenderBody()
         </main>
