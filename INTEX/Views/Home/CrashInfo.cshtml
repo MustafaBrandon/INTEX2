@@ -1,17 +1,39 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using INTEX.Areas.Identity.Data
+
+@{
     ViewData["Title"] = "Crash Log";
 }
 
 @model Filter
 
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 <div class="container">
     <form class="px-1" method="post" asp-action="CrashInfo" asp-route-pageNum="1">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-2">
                 <h1 class="text-center">Crash Log</h1>
             </div>
 
             @* Search Functionality *@
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <div class="col-8 my-2">
+                    <div class="input-group mb-3 shadow-sm">
+                        <input type="text" class="form-control" placeholder="Search By Road Name" asp-for="MAIN_ROAD_NAME">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-primary btn-lg w-100" asp-controller="Admin" asp-action="AddCrash">New Crash</a>
+                </div>
+            }
+            else
+            {
             <div class="col-10 my-2">
                 <div class="input-group mb-3 shadow-sm">
                     <input type="text" class="form-control" placeholder="Search By Road Name" asp-for="MAIN_ROAD_NAME">
@@ -20,6 +42,7 @@
                     </div>
                 </div>
             </div>
+            }
         </div>
 
         <div class="row">
@@ -55,81 +78,105 @@
                             </div>
                         </div>
 
+                        @* Location Filter *@
+                        <div class="mb-4">
+                            <label style="font-weight: 600">Location:</label>
+                            <div class="form-group">
+                                <select class="form-control text-center" role="button" asp-for="CITY">
+                                    <option value="" class="text-muted">-- City --</option>
+                                    @foreach (string city in ViewBag.Cities)
+                                    {
+                                        <option value="@city">@city</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control text-center" role="button" asp-for="COUNTY_NAME">
+                                    <option class="text-muted" value="">-- County --</option>
+                                    @foreach (string county in ViewBag.Counties)
+                                    {
+                                        <option value="@county">@county</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
                         @* Crash Flags *@
+                        <label style="font-weight: 600">Flags:</label>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="WORK_ZONE_RELATED">
+                            <input class="form-check-input" type="checkbox" asp-for="WORK_ZONE_RELATED" role="button">
                             <label class="form-check-label" asp-for="WORK_ZONE_RELATED">Workzone</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="PEDESTRIAN_INVOLVED">
+                            <input class="form-check-input" type="checkbox" asp-for="PEDESTRIAN_INVOLVED" role="button">
                             <label class="form-check-label" asp-for="PEDESTRIAN_INVOLVED">Pedestrian</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="BICYCLIST_INVOLVED">
+                            <input class="form-check-input" type="checkbox" asp-for="BICYCLIST_INVOLVED" role="button">
                             <label class="form-check-label" asp-for="BICYCLIST_INVOLVED">Bicyclist</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="MOTORCYCLE_INVOLVED">
+                            <input class="form-check-input" type="checkbox" asp-for="MOTORCYCLE_INVOLVED" role="button">
                             <label class="form-check-label" asp-for="MOTORCYCLE_INVOLVED">Motorcycle</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="IMPROPER_RESTRAINT">
+                            <input class="form-check-input" type="checkbox" asp-for="IMPROPER_RESTRAINT" role="button">
                             <label class="form-check-label" asp-for="IMPROPER_RESTRAINT">Poor Restraint</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="UNRESTRAINED">
+                            <input class="form-check-input" type="checkbox" asp-for="UNRESTRAINED" role="button">
                             <label class="form-check-label" asp-for="UNRESTRAINED">Unrestrained</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="DUI">
+                            <input class="form-check-input" type="checkbox" asp-for="DUI" role="button">
                             <label class="form-check-label" asp-for="DUI">DUI</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="INTERSECTION_RELATED">
+                            <input class="form-check-input" type="checkbox" asp-for="INTERSECTION_RELATED" role="button">
                             <label class="form-check-label" asp-for="INTERSECTION_RELATED">Intersection</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="WILD_ANIMAL_RELATED">
+                            <input class="form-check-input" type="checkbox" asp-for="WILD_ANIMAL_RELATED" role="button">
                             <label class="form-check-label" asp-for="WILD_ANIMAL_RELATED">Wild Animal</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="DOMESTIC_ANIMAL_RELATED">
+                            <input class="form-check-input" type="checkbox" asp-for="DOMESTIC_ANIMAL_RELATED" role="button">
                             <label class="form-check-label" asp-for="DOMESTIC_ANIMAL_RELATED">Domestic Animal</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="OVERTURN_ROLLOVER">
+                            <input class="form-check-input" type="checkbox" asp-for="OVERTURN_ROLLOVER" role="button">
                             <label class="form-check-label" asp-for="OVERTURN_ROLLOVER">Overturn/Rollover</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="COMMERCIAL_MOTOR_VEH_INVOLVED">
+                            <input class="form-check-input" type="checkbox" asp-for="COMMERCIAL_MOTOR_VEH_INVOLVED" role="button">
                             <label class="form-check-label" asp-for="COMMERCIAL_MOTOR_VEH_INVOLVED">Commercial Vehicle</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="TEENAGE_DRIVER_INVOLVED">
+                            <input class="form-check-input" type="checkbox" asp-for="TEENAGE_DRIVER_INVOLVED" role="button">
                             <label class="form-check-label" asp-for="TEENAGE_DRIVER_INVOLVED">Teenage Driver</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="OLDER_DRIVER_INVOLVED">
+                            <input class="form-check-input" type="checkbox" asp-for="OLDER_DRIVER_INVOLVED" role="button">
                             <label class="form-check-label" asp-for="OLDER_DRIVER_INVOLVED">Senior Driver</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="NIGHT_DARK_CONDITION">
+                            <input class="form-check-input" type="checkbox" asp-for="NIGHT_DARK_CONDITION" role="button">
                             <label class="form-check-label" asp-for="NIGHT_DARK_CONDITION">Night/Dark</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="SINGLE_VEHICLE">
+                            <input class="form-check-input" type="checkbox" asp-for="SINGLE_VEHICLE" role="button">
                             <label class="form-check-label" asp-for="SINGLE_VEHICLE">Single Vehicle</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="DISTRACTED_DRIVING">
+                            <input class="form-check-input" type="checkbox" asp-for="DISTRACTED_DRIVING" role="button">
                             <label class="form-check-label" asp-for="DISTRACTED_DRIVING">Distracted Driving</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="DROWSY_DRIVING">
+                            <input class="form-check-input" type="checkbox" asp-for="DROWSY_DRIVING" role="button">
                             <label class="form-check-label" asp-for="DROWSY_DRIVING">Drowsy Driving</label>
                         </div>
                         <div class="form-switch">
-                            <input class="form-check-input" type="checkbox" asp-for="ROADWAY_DEPARTURE">
+                            <input class="form-check-input" type="checkbox" asp-for="ROADWAY_DEPARTURE" role="button">
                             <label class="form-check-label" asp-for="ROADWAY_DEPARTURE">Roadway Departure</label>
                         </div>
                         <div class="text-center mt-2 pb-2">
@@ -165,7 +212,7 @@
                         }
 
                         <div class="col-6">
-                            <div class="card my-1 mx-2 shadow-sm border border-secondary">
+                            <div class="card my-1 mx-2 shadow-sm">
                                 <div class="card-body">
                                     <span class="float-right">
                                         <h6>Severity: </h6>
