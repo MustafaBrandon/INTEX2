@@ -67,7 +67,6 @@ namespace INTEX
                     await next();
                 });
             }
-            app.UseHsts();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
