@@ -26,6 +26,7 @@ namespace INTEX.Areas.Identity
                     .AddEntityFrameworkStores<INTEXDbContext>();
 
                 services.AddTransient<IEmailSender, SendGridEmailSender>();
+
             });
         }
     }
