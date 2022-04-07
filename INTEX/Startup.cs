@@ -47,7 +47,7 @@ namespace INTEX
             });
 
             services.AddSingleton<InferenceSession>(
-                new InferenceSession("crash_id_model.onnx")
+                new InferenceSession("wwwroot/crash_id_model.onnx")
                 );
         }
 

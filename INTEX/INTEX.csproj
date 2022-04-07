@@ -52,4 +52,7 @@
     <Folder Include="Infrastructure\" />
     <Folder Include="Models\ViewModels\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\crash_id_model.onnx" />
+  </ItemGroup>
 </Project>
