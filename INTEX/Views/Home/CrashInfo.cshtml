@@ -1,17 +1,40 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using INTEX.Areas.Identity.Data
+
+@{
     ViewData["Title"] = "Crash Log";
 }
 
 @model Filter
 
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 <div class="container">
     <form class="px-1" method="post" asp-action="CrashInfo" asp-route-pageNum="1">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-2">
                 <h1 class="text-center">Crash Log</h1>
             </div>
 
             @* Search Functionality *@
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <div class="col-8 my-2">
+                    <div class="input-group mb-3 shadow-sm">
+                        <input type="text" class="form-control" placeholder="Search By Road Name" asp-for="MAIN_ROAD_NAME">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-primary btn-lg w-100" asp-controller="Admin" asp-action="AddCrash">New Crash</a>
+                </div>
+            }
+            else
+            {
             <div class="col-10 my-2">
                 <div class="input-group mb-3 shadow-sm">
                     <input type="text" class="form-control" placeholder="Search By Road Name" asp-for="MAIN_ROAD_NAME">
@@ -20,6 +43,7 @@
                     </div>
                 </div>
             </div>
+            }
         </div>
 
         <div class="row">
