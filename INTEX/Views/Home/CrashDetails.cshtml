@@ -4,6 +4,9 @@
     ViewData["Title"] = "Crash Details";
 }
 
+<input type="hidden" id="utmX" value="@Model.LONG_UTM_X" />ß
+<input type="hidden" id="utmY" value="@Model.LAT_UTM_Y" />
+
 <div class="container bg-white rounded py-3 px-5 shadow my-4">
     <div class="row my-3">
         <div class="col-10">
@@ -34,25 +37,7 @@
                         }
                     </div>
                     <div class="col-3">
-                        @switch (Model.CRASH_SEVERITY_ID)
-                        {
-                            case 1:
-                                ViewBag.Color = "green";
-                                break;
-                            case 2:
-                                ViewBag.Color = "greenyellow";
-                                break;
-                            case 3:
-                                ViewBag.Color = "yellow";
-                                break;
-                            case 4:
-                                ViewBag.Color = "orange";
-                                break;
-                            case 5:
-                                ViewBag.Color = "red";
-                                break;
-                        }
-                        <span class="box border border-dark" style="background-color:@ViewBag.Color">@Model.CRASH_SEVERITY_ID</span>
+                        <span class="box border border-dark color-@Model.CRASH_SEVERITY_ID">@Model.CRASH_SEVERITY_ID</span>
                     </div>
                 </div>
             </div>
@@ -224,60 +209,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 
-    <script>
-    let lat;
-    let long;
-    let addr;
+    <script src="~/js/detailMaps.js"></script>
 
-    axios.post('https://7o1vcvfox2.execute-api.us-east-1.amazonaws.com/default/utmToLatLong', {
-        "body": "{\"utmX\": @Model.LONG_UTM_X,\"utmY\": @Model.LAT_UTM_Y}"
-    }).then(res => {
-        let data = JSON.parse(res.data);
-        lat = data.lat;
-        long = data.lon;
-
-        let moreUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + long + '&key=AIzaSyDbMfrJkOsAaEwi7fHIYoq8vTRhdvpDE3A';
-
-        axios(moreUrl)
-            .then(function (response) {
-                addr = response.data.results[0].formatted_address.replaceAll(", ",",").replaceAll(" ","+");
-
-                let coords = lat + "," + long;
-
-                let newURL = "https://www.google.com/maps/embed/v1/streetview" +
-                    "?key=AIzaSyDbMfrJkOsAaEwi7fHIYoq8vTRhdvpDE3A" +
-                    "&location=" + coords+
-                    "&heading=210" +
-                    "&pitch=10" +
-                    "&fov=90";
-
-                let placeURL = "https://www.google.com/maps/embed/v1/place" +
-                    "?key=AIzaSyDbMfrJkOsAaEwi7fHIYoq8vTRhdvpDE3A" +
-                    "&q=" + addr +
-                    "&center=" + coords
-                    "&zoom=16";
-                
-                let myScript= document.createElement("iframe");
-                myScript.setAttribute("src", newURL);
-                myScript.setAttribute("width", "100%");
-                myScript.setAttribute("height", "500");
-                myScript.setAttribute("style", "border:0;");
-                myScript.setAttribute("frameborder", "0");
-                myScript.setAttribute("allowfullscreen", "");
-                myScript.setAttribute("loading", "lazy");
-                myScript.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
-                document.getElementById("StreetView").appendChild(myScript);
-
-                let placeView = document.createElement("iframe");
-                placeView.setAttribute("src", placeURL);
-                placeView.setAttribute("width", "100%");
-                placeView.setAttribute("height", "700");
-                placeView.setAttribute("style", "border:0;");
-                placeView.setAttribute("frameborder", "0");
-                placeView.setAttribute("allowfullscreen", "");
-                placeView.setAttribute("loading", "lazy");
-                placeView.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
-                document.getElementById("placeView").appendChild(placeView);
-            })
-    })
-    </script>
+    <link rel="stylesheet" href="~/css/bgColors.css" />

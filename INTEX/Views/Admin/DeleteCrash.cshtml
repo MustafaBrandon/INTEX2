@@ -13,27 +13,7 @@
             <div class="card-body">
                 <span class="float-right">
                     <h5 class="text-center">Severity: </h5>
-                    
-                    @switch (Model.CRASH_SEVERITY_ID)
-                    {
-                        case 1:
-                            ViewBag.Color = "green";
-                            break;
-                        case 2:
-                            ViewBag.Color = "greenyellow";
-                            break;
-                        case 3:
-                            ViewBag.Color = "yellow";
-                            break;
-                        case 4:
-                            ViewBag.Color = "orange";
-                            break;
-                        case 5:
-                            ViewBag.Color = "red";
-                            break;
-                    }
-
-                    <span class="box float-right border border-dark mx-3" style="background-color: @ViewBag.Color">@Model.CRASH_SEVERITY_ID</span>
+                    <span class="box float-right border border-dark mx-3 color-@Model.CRASH_SEVERITY_ID">@Model.CRASH_SEVERITY_ID</span>
                 </span>
                 <h3 class="card-title">@Model.MAIN_ROAD_NAME</h3>
                 <h5 class="card-subtitle mb-2 text-muted">@Model.CRASH_DATETIME</h5>
@@ -45,3 +25,5 @@
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
 </div>
+
+<link rel="stylesheet" href="~/css/bgColors.css" />
