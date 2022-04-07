@@ -191,11 +191,10 @@ namespace INTEX.Controllers
         }
 
         [HttpGet]
-        public IActionResult CrashDetails(int id, string color)
+        public IActionResult CrashDetails(int id)
         {
             var crash = _repo.Utah_Crashes.FirstOrDefault(x => x.CRASH_ID == id);
             ViewBag.Severities = _repo.Severity.ToList();
-            ViewBag.Color = color;
             return View(crash);
         }
 

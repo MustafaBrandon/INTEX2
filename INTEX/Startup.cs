@@ -46,9 +46,9 @@ namespace INTEX
                 options.UseMySql(DbHelper.GetRDSConnectionString());
             });
 
-            services.AddSingleton<InferenceSession>(
-                new InferenceSession("crash_id_model.onnx")
-                );
+            //services.AddSingleton<InferenceSession>(
+            //    new InferenceSession("crash_id_model.onnx")
+            //    );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
