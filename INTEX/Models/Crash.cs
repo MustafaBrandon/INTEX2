@@ -81,9 +81,9 @@ namespace INTEX.Models
         [Required]
         public bool ROADWAY_DEPARTURE { get; set; }
 
-        public double MILEPOINT { get; set; }
+        public double? MILEPOINT { get; set; }
         public string ROUTE { get; set; }
-        public double LAT_UTM_Y { get; set; }
-        public double LONG_UTM_X { get; set; }
+        public double? LAT_UTM_Y { get; set; }
+        public double? LONG_UTM_X { get; set; }
     }
 }

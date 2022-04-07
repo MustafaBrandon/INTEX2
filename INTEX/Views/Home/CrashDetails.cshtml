@@ -14,11 +14,12 @@
             <partial name="~/Views/Shared/_AdminPartial.cshtml" />
         </div>
     </div>
-    <div class="row">
+    <div class="row my-4">
         <div class="col-8">
             <div id="StreetView"></div>
         </div>
 
+        @* Crash Head *@
         <div class="card col-4">
             <div class="card-header bg-white">
                 <div class="row">
@@ -33,6 +34,24 @@
                         }
                     </div>
                     <div class="col-3">
+                        @switch (Model.CRASH_SEVERITY_ID)
+                        {
+                            case 1:
+                                ViewBag.Color = "green";
+                                break;
+                            case 2:
+                                ViewBag.Color = "greenyellow";
+                                break;
+                            case 3:
+                                ViewBag.Color = "yellow";
+                                break;
+                            case 4:
+                                ViewBag.Color = "orange";
+                                break;
+                            case 5:
+                                ViewBag.Color = "red";
+                                break;
+                        }
                         <span class="box border border-dark" style="background-color:@ViewBag.Color">@Model.CRASH_SEVERITY_ID</span>
                     </div>
                 </div>
@@ -180,14 +199,21 @@
                                 <h6>Work Zone Related</h6>
                             </li>
                         }
-
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
+    @*<div class="accordian">
+        <div class="accordian-item">
+            <div class="accordian-header"></div>
+            <div class="accordian-body">
+                <div id="placeView"></div>
+            </div>
+        </div>
+    </div>*@
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 
@@ -256,7 +282,7 @@
                 placeView.setAttribute("allowfullscreen", "");
                 placeView.setAttribute("loading", "lazy");
                 placeView.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
-                document.body.appendChild(placeView);
+                document.getElementById("placeView").appendChild(placeView);
 
                 //lat = data.snappedPoints[0].location.latitude;
                 //long = data.snappedPoints[0].location.longitude;

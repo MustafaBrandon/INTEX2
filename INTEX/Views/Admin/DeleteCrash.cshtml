@@ -3,7 +3,7 @@
 
 @model Crash
 
-<div>
+<div class="container my-4">
     <form method="post">
         <h1>Are you sure you want to delete this crash from the database?</h1>
         <h4 class="text-danger">WARNING: This cannot be undone</h4>
@@ -12,13 +12,32 @@
         <div class="card my-3 mx-2 shadow-sm">
             <div class="card-body">
                 <span class="float-right">
-                    <h5>Severity: </h5>
-                    <span class="dot float-right" style="background-color: lightgray">@Model.CRASH_SEVERITY_ID</span>
+                    <h5 class="text-center">Severity: </h5>
+                    
+                    @switch (Model.CRASH_SEVERITY_ID)
+                    {
+                        case 1:
+                            ViewBag.Color = "green";
+                            break;
+                        case 2:
+                            ViewBag.Color = "greenyellow";
+                            break;
+                        case 3:
+                            ViewBag.Color = "yellow";
+                            break;
+                        case 4:
+                            ViewBag.Color = "orange";
+                            break;
+                        case 5:
+                            ViewBag.Color = "red";
+                            break;
+                    }
+
+                    <span class="box float-right border border-dark mx-3" style="background-color: @ViewBag.Color">@Model.CRASH_SEVERITY_ID</span>
                 </span>
                 <h3 class="card-title">@Model.MAIN_ROAD_NAME</h3>
                 <h5 class="card-subtitle mb-2 text-muted">@Model.CRASH_DATETIME</h5>
                 <p class="card-text">@(Model.LAT_UTM_Y), @Model.LONG_UTM_X<br />@(Model.CITY), @(Model.COUNTY_NAME)</p>
-                <a class="stretched-link text-decoration-none" asp-action="CrashDetails" asp-route-id="@Model.CRASH_ID"></a>
             </div>
         </div>
 
