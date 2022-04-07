@@ -51,13 +51,13 @@
                     <h3 class="pt-2 px-1 text-center">Filters</h3>
                     <div class="px-1">
                         <div class="form-group">
-                            <label style="font-weight: 600" asp-for="CRASH_DATETIME">Day of Accident:</label>
+                            <label class="font-weight-bold" asp-for="CRASH_DATETIME">Day of Accident:</label>
                             <input type="date" id="date" class="form-control px-3" asp-for="CRASH_DATETIME" />
                         </div>
 
                         @* Severity Filter *@
                         <div class="my-2">
-                            <label style="font-weight: 600">Severity:</label>
+                            <label class="font-weight-bold">Severity:</label>
                             <div class="text-center">
                                 <div class="btn-group">
                                     <input type="checkbox" class="btn-check" asp-for="CRASH_SEVERITY_1">
@@ -80,7 +80,7 @@
 
                         @* Location Filter *@
                         <div class="mb-4">
-                            <label style="font-weight: 600">Location:</label>
+                            <label class="font-weight-bold">Location:</label>
                             <div class="form-group">
                                 <select class="form-control text-center" role="button" asp-for="CITY">
                                     <option value="" class="text-muted">-- City --</option>
@@ -102,7 +102,7 @@
                         </div>
 
                         @* Crash Flags *@
-                        <label style="font-weight: 600">Flags:</label>
+                        <label class="font-weight-bold">Flags:</label>
                         <div class="form-switch">
                             <input class="form-check-input" type="checkbox" asp-for="WORK_ZONE_RELATED" role="button">
                             <label class="form-check-label" asp-for="WORK_ZONE_RELATED">Workzone</label>
@@ -191,37 +191,17 @@
                 <div class="row">
                     @foreach (var c in ViewBag.crashes)
                     {
-                        string bg_color = "white";
-                        switch (c.CRASH_SEVERITY_ID)
-                        {
-                            case 1:
-                                bg_color = "green";
-                                break;
-                            case 2:
-                                bg_color = "greenyellow";
-                                break;
-                            case 3:
-                                bg_color = "yellow";
-                                break;
-                            case 4:
-                                bg_color = "orange";
-                                break;
-                            case 5:
-                                bg_color = "red";
-                                break;
-                        }
-
                         <div class="col-6">
                             <div class="card my-1 mx-2 shadow-sm">
                                 <div class="card-body">
                                     <span class="float-right">
                                         <h6>Severity: </h6>
-                                        <span class="box float-right border border-dark" style="background-color: @bg_color">@c.CRASH_SEVERITY_ID</span>
+                                        <span class="box float-right border border-dark color-@c.CRASH_SEVERITY_ID">@c.CRASH_SEVERITY_ID</span>
                                     </span>
                                     <h5 class="card-title">@c.MAIN_ROAD_NAME</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">@c.CRASH_DATETIME</h6>
                                     <p class="card-text">@(c.LAT_UTM_Y), @c.LONG_UTM_X<br />@(c.CITY), @(c.COUNTY_NAME)</p>
-                                    <a class="stretched-link text-decoration-none" asp-action="CrashDetails" asp-route-id="@c.CRASH_ID" asp-route-color="@bg_color"></a>
+                                    <a class="stretched-link text-decoration-none" asp-action="CrashDetails" asp-route-id="@c.CRASH_ID"></a>
                                 </div>
                             </div>
                         </div>
@@ -245,3 +225,5 @@
         </div>
     </form>
 </div>
+
+<link rel="stylesheet" href="~/css/bgColors.css" />

@@ -50,14 +50,14 @@
                 <div class="col">
                     <div class="form-group">
                         <label asp-for=@Model.CITY>City:</label>
-                        <input asp-for=@Model.CITY class="form-control" style="text-transform: uppercase;" required id="city" onblur="upperCaseIt(this.id)" />
+                        <input asp-for=@Model.CITY class="form-control" required id="city" onblur="upperCaseIt(this.id)" />
                         <span asp-validation-for=@Model.CITY class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label asp-for=@Model.COUNTY_NAME>County:</label>
-                        <input asp-for=@Model.COUNTY_NAME class="form-control" style="text-transform: uppercase;" id="county" required />
+                        <input asp-for=@Model.COUNTY_NAME class="form-control" id="county" required />
                         <span asp-validation-for=@Model.COUNTY_NAME class="text-danger"></span>
                     </div>
                 </div>
@@ -67,14 +67,14 @@
                 <div class="col">
                     <div class="form-group">
                         <label asp-for=@Model.MAIN_ROAD_NAME>Nearest Main Road:</label>
-                        <input asp-for=@Model.MAIN_ROAD_NAME class="form-control" style="text-transform: uppercase;" id="mainRoad" required />
+                        <input asp-for=@Model.MAIN_ROAD_NAME class="form-control" id="mainRoad" required />
                         <span asp-validation-for=@Model.MAIN_ROAD_NAME class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label asp-for=@Model.ROUTE>Route:</label>
-                        <input asp-for=@Model.ROUTE class="form-control" style="text-transform: uppercase;" id="route" />
+                        <input asp-for=@Model.ROUTE class="form-control" id="route" />
                         <span asp-validation-for=@Model.ROUTE class="text-danger"></span>
                     </div>
                 </div>
