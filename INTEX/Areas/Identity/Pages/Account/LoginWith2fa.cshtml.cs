@@ -36,7 +36,7 @@ namespace INTEX.Areas.Identity.Pages.Account
             [Required]
             [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Text)]
-            [Display(Name = "Authenticator code")]
+            [Display(Name = "Authenticator Code")]
             public string TwoFactorCode { get; set; }
 
             [Display(Name = "Remember this machine")]
@@ -50,7 +50,7 @@ namespace INTEX.Areas.Identity.Pages.Account
 
             if (user == null)
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                return RedirectToPage("./Login");
             }
 
             ReturnUrl = returnUrl;
