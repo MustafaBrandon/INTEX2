@@ -22,7 +22,7 @@ namespace INTEX.Areas.Identity.Services
 
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
-            string sendGridApiKey = "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";
+            string sendGridApiKey = Environment.GetEnvironmentVariable("EMAIL_KEY");
             if (string.IsNullOrEmpty(sendGridApiKey))
             {
                 throw new Exception("The 'SendGridApiKey' is not configured");
