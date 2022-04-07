@@ -61,9 +61,14 @@ namespace INTEX
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.Use(async (context, next) =>
+                {
+                    context.Response.Headers.Add("Strict-Transport-Security", "max-age-31536000;");
+                    await next();
+                });
             }
+            app.UseHsts();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
