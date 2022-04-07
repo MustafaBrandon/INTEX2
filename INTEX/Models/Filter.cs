@@ -29,5 +29,7 @@ namespace INTEX.Models
         public bool DISTRACTED_DRIVING { get; set; }
         public bool DROWSY_DRIVING { get; set; }
         public bool ROADWAY_DEPARTURE { get; set; }
+        public string CITY { get; set; }
+        public string COUNTY_NAME { get; set; }
     }
 }
