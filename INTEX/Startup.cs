@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.ML.OnnxRuntime;
 
 namespace INTEX
 {
@@ -44,6 +45,10 @@ namespace INTEX
             {
                 options.UseMySql(DbHelper.GetRDSConnectionString());
             });
+
+            services.AddSingleton<InferenceSession>(
+                new InferenceSession("crash_id_model.onnx")
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
