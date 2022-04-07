@@ -32,6 +32,18 @@ namespace INTEX.Controllers
 
         public IActionResult Index()
         {
+            var severityData = new List<int>();
+            var severityLabel = new List<string>();
+
+            for(int i = 1; i < 6; i++)
+            {
+                severityData.Add(_repo.Utah_Crashes.Where(x => x.CRASH_SEVERITY_ID == i).Count());
+                severityLabel.Add(_repo.Severity.Where(x => x.CRASH_SEVERITY_ID == i).Select(x => x.DESCRIPTION).First());
+            }
+
+            ViewBag.severityData = severityData;
+            ViewBag.severityLabel = severityLabel;
+
             return View();
         }
 
