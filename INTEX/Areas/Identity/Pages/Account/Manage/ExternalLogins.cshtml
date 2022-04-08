@@ -1,11 +1,14 @@
 ﻿@page
 @model ExternalLoginsModel
 @{
-    ViewData["Title"] = "Manage your external logins";
+    ViewData["Title"] = "Manage Your External Logins";
     ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
 }
 
+@* This function is not currently available *@
+
 <partial name="_StatusMessage" for="StatusMessage" />
+<h4>@ViewData["Title"]</h4>
 @if (Model.CurrentLogins?.Count > 0)
 {
     <h4>Registered Logins</h4>

@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.ML.OnnxRuntime;
 
 namespace INTEX
 {
@@ -44,6 +45,10 @@ namespace INTEX
             {
                 options.UseMySql(DbHelper.GetRDSConnectionString());
             });
+
+            //services.AddSingleton<InferenceSession>(
+            //    new InferenceSession("wwwroot/crash_id_model.onnx")
+            //    );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,9 +61,13 @@ namespace INTEX
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.Use(async (context, next) =>
+                {
+                    context.Response.Headers.Add("Strict-Transport-Security", "max-age-31536000;");
+                    await next();
+                });
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -66,6 +75,12 @@ namespace INTEX
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self' use.fontawesome.com cdn.jsdelivr.net app.termly.io unpkg.com cdnjs.cloudflare.com www.w3.org 7o1vcvfox2.execute-api.us-east-1.amazonaws.com maps.googleapis.com www.google.com 'sha256-rwMOiOeVICH7/Cjy5SkreID3OOi5HTrit357k22hUDQ='; img-src * data:; style-src * 'self' data: 'unsafe-inline';");
+                await next();
+            });
 
             app.UseEndpoints(endpoints =>
             {

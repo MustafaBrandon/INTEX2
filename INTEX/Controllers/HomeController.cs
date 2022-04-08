@@ -42,9 +42,11 @@ namespace INTEX.Controllers
             return View();
         }
 
+        [Route("CrashInfo/{pageNum:int?}")]
         [HttpGet]
         public IActionResult CrashInfo(int pageNum = 1)
         {
+            ViewBag.post = false;
             int pageSize = 20;
 
             ViewBag.PageInfo = new PageInfo
@@ -52,37 +54,33 @@ namespace INTEX.Controllers
                 TotalNumCrashes = _repo.Utah_Crashes.Count(),
                 CrashesPerPage = pageSize,
                 CurrentPage = pageNum
-            };
+            };  
 
             ViewBag.crashes = _repo.Utah_Crashes.Skip((pageNum - 1) * pageSize).Take(pageSize);
+
+            ViewBag.Cities = _repo.Utah_Crashes.Select(x => x.CITY).Distinct().OrderBy(x => x).ToList();
+            ViewBag.Counties = _repo.Utah_Crashes.Select(x => x.COUNTY_NAME).Distinct().OrderBy(x => x).ToList();
 
             return View();
         }
 
+        [Route("CrashInfo/{pageNum:int}")]
         [HttpPost]
         public IActionResult CrashInfo(Filter f, int pageNum = 1)
         {
-            int pageSize = 20;
+            ViewBag.post = true;
 
+            int pageSize = 20;
             var crashes = _repo.Utah_Crashes;
 
+            // Date Filtering
             if (f.CRASH_DATETIME != null)
             {
                 var date = DateTime.Parse(f.CRASH_DATETIME);
                 crashes = crashes.Where(x => x.CRASH_DATETIME.Date == date);
             }
-            if (f.MAIN_ROAD_NAME != null)
-            {
-                crashes = crashes.Where(x => x.MAIN_ROAD_NAME.Contains(f.MAIN_ROAD_NAME));
-            }
-            if (f.BICYCLIST_INVOLVED)
-            {
-                crashes = crashes.Where(x => x.BICYCLIST_INVOLVED);
-            }
-            if(f.COMMERCIAL_MOTOR_VEH_INVOLVED)
-            {
-                crashes = crashes.Where(x => x.COMMERCIAL_MOTOR_VEH_INVOLVED);
-            }
+
+            // Severity Filtering
             if (!f.CRASH_SEVERITY_1 && !f.CRASH_SEVERITY_2 && !f.CRASH_SEVERITY_3 && !f.CRASH_SEVERITY_4 && !f.CRASH_SEVERITY_5) { }
             else
             {
@@ -106,6 +104,30 @@ namespace INTEX.Controllers
                 {
                     crashes = crashes.Where(x => x.CRASH_SEVERITY_ID != 5);
                 }
+            }
+
+            // Location Filtering
+            if (f.CITY != null)
+            {
+                crashes = crashes.Where(x => x.CITY == f.CITY);
+            }
+            if (f.COUNTY_NAME != null)
+            {
+                crashes = crashes.Where(x => x.COUNTY_NAME == f.COUNTY_NAME);
+            }
+
+            // Flag Filtering
+            if (f.MAIN_ROAD_NAME != null)
+            {
+                crashes = crashes.Where(x => x.MAIN_ROAD_NAME.Contains(f.MAIN_ROAD_NAME));
+            }
+            if (f.BICYCLIST_INVOLVED)
+            {
+                crashes = crashes.Where(x => x.BICYCLIST_INVOLVED);
+            }
+            if (f.COMMERCIAL_MOTOR_VEH_INVOLVED)
+            {
+                crashes = crashes.Where(x => x.COMMERCIAL_MOTOR_VEH_INVOLVED);
             }
             if (f.DISTRACTED_DRIVING)
             {
@@ -184,6 +206,9 @@ namespace INTEX.Controllers
             };
 
             ViewBag.crashes = crashes.Skip((pageNum - 1) * pageSize).Take(pageSize);
+
+            ViewBag.Cities = _repo.Utah_Crashes.Select(x => x.CITY).Distinct().OrderBy(x => x).ToList();
+            ViewBag.Counties = _repo.Utah_Crashes.Select(x => x.COUNTY_NAME).Distinct().OrderBy(x => x).ToList();
 
             return View();
         }

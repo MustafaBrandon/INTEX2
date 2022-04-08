@@ -21,14 +21,14 @@
     "INTEX": {
       "commandName": "Project",
       "launchBrowser": true,
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-
         "RDS_HOSTNAME": "aawxukxqq845f3.c9ysuq7mmxcj.us-east-1.rds.amazonaws.com",
         "RDS_USERNAME": "awsDB",
         "RDS_PASSWORD": "CZWddyLgXzjZZVCWWN6P2sxda6ed48ZF",
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "EMAIL_KEY": "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"
+      }
     }
   }
 }

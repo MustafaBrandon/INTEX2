@@ -1,17 +1,33 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
+@using Newtonsoft.Json
 
 <script type="text/javascript"
         src="https://app.termly.io/embed.min.js"
         data-auto-block="on"
         data-website-uuid="bd768242-0caf-4596-be95-3d56795fa394"></script>
-@*<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-</div>*@
-<div style="background-color: #262626;">
-    <img src="~/img/roads.jpg" style="width:100%;height:auto;" />
-    <br />
+
+<header class="masthead">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
+                <h1 class="fw-bold">Utah Crash and Accident Prevention</h1>
+                <p class="lead">Seeking to improve road safety throughout Utah</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container bg-white p-3">
+    <div class="row">
+        <div class="col-6">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis felis dui. Morbi viverra eu ligula vitae vestibulum. Cras sagittis rhoncus justo et suscipit. Morbi posuere, purus molestie posuere tincidunt, diam mi convallis quam, ac malesuada nibh lectus a dolor. Duis maximus pellentesque consequat. Curabitur consequat feugiat metus, eu mollis urna imperdiet feugiat. Cras et purus convallis, tincidunt justo sit amet, rhoncus erat. Ut neque dolor, vestibulum eu quam non, tincidunt condimentum elit. Donec commodo eleifend nibh efficitur suscipit. Donec porta, nisi sit amet molestie vestibulum, odio odio dapibus ligula, ullamcorper tincidunt velit dui eget orci. Vestibulum vestibulum odio quam, vitae consectetur augue volutpat non.</p>
+            <p>Quisque placerat iaculis congue. Mauris aliquet pulvinar fermentum. Quisque ac commodo elit. Cras vitae dui id eros malesuada lobortis. Cras vestibulum, lacus id luctus aliquam, dolor diam dapibus odio, ut ultricies lacus augue ac ipsum. Nam ultrices libero at purus convallis tempus. Suspendisse tempor turpis eget viverra euismod. Curabitur faucibus mattis gravida. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce vitae ullamcorper mi. Donec id vulputate lacus, eget venenatis urna. Integer eget commodo odio.</p>
+            <p>Nam augue risus, pharetra et justo quis, imperdiet malesuada nibh. Phasellus id suscipit quam, a faucibus orci. Nulla facilisi. Curabitur molestie neque id feugiat egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam volutpat congue tempor. Phasellus maximus nec ligula eget lobortis. Proin eu consectetur ante, vehicula pretium urna. Donec vitae velit vel magna scelerisque condimentum. Proin scelerisque nisi vitae dolor commodo aliquet.</p>
+        </div>
+    </div>
 </div>
 
-<p style="background-color: #262626">__</p>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="~/css/masthead.css" />

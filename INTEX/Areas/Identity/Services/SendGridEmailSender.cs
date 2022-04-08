@@ -22,7 +22,7 @@ namespace INTEX.Areas.Identity.Services
 
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
-            string sendGridApiKey = "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"; // Secrets Manager
+            string sendGridApiKey = Environment.GetEnvironmentVariable("EMAIL_KEY");
             if (string.IsNullOrEmpty(sendGridApiKey))
             {
                 throw new Exception("The 'SendGridApiKey' is not configured");
@@ -31,7 +31,7 @@ namespace INTEX.Areas.Identity.Services
             var client = new SendGridClient(sendGridApiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("brownie9@byu.edu", "Utah CAPS"), // Secrets Manager
+                From = new EmailAddress("noreply.utahcaps@gmail.com", "Utah CAPS"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
@@ -46,6 +46,8 @@ namespace INTEX.Areas.Identity.Services
             else
             {
                 logger.LogError("Failed to send email");
+                // Adding more information related to the failed email could be helpful in debugging failure,
+                // but be careful about logging PII, as it increases the chance of leaking PII
             }
         }
     }
