@@ -12,5 +12,7 @@ namespace INTEX.Models
 
         public DbSet<Crash> Utah_Crashes { get; set; }
         public DbSet<Severity> Severity { get; set; }
+
+        public DbSet<Intersection> Intersections { get; set; }
     }
 }

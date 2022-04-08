@@ -8,6 +8,8 @@ namespace INTEX.Models
         IQueryable<Crash> Utah_Crashes { get; }
         IQueryable<Severity> Severity { get; }
 
+        IQueryable<Intersection> Intersections { get; }
+
         public void AddCrash(Crash c);
         public void EditCrash(Crash c);
         public void RemoveCrash(Crash c);

@@ -14,6 +14,8 @@ using System.Net.Http;
 using System.Text;
 using System.Net.Http.Headers;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.IO;
 
 namespace INTEX.Controllers
 {
@@ -193,6 +195,203 @@ namespace INTEX.Controllers
             ViewBag.Severities = _repo.Severity.ToList();
             return View(crash);
         }
+
+        [HttpGet]
+        public IActionResult SafeRoute()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SafeRoute(SafeRouteInput sri)
+        {
+            sri.origin = sri.origin.Replace(", ", ",").Replace(" ", "+");
+            sri.destination = sri.destination.Replace(", ", ",").Replace(" ", "+");
+
+            string url = String.Format(
+                "https://maps.googleapis.com/maps/api/directions/json?destination=" +
+                sri.destination+
+                "&origin="+
+                sri.origin+
+                "&alternatives=true&key=AIzaSyDbMfrJkOsAaEwi7fHIYoq8vTRhdvpDE3A");
+            WebRequest requestObjGet = WebRequest.Create(url);
+            requestObjGet.Method = "GET";
+            HttpWebResponse response = null;
+            response = (HttpWebResponse)requestObjGet.GetResponse();
+
+            string result = null;
+            using (Stream stream = response.GetResponseStream())
+            {
+                StreamReader sr = new StreamReader(stream);
+                result = sr.ReadToEnd();
+                sr.Close();
+            }
+            //await Generatoor.FireMisslesAsync();
+            //Console.WriteLine(result);
+            //await WriteAllText.writeJSON(result);
+
+            var directionResponse = DirectionResponse.FromJson(result);
+            var data = _repo.Intersections.ToList();
+            //Console.WriteLine(directionResponse.Routes[0].Legs[0].StartLocation.Lat);
+            //Append start
+            List<possiblePath> paths = new List<possiblePath>();
+
+            //FOR EACH ROUTE IN ROUTES
+            foreach (Route r in directionResponse.Routes)
+            {
+                var intersections = new List<Coordinates>();
+                intersections.Add(new Coordinates(r.Legs[0].StartLocation.Lat, r.Legs[0].StartLocation.Lng));
+                //append all end locs of legs
+                foreach (Leg leg in r.Legs)
+                {
+                    intersections.Add(new Coordinates(leg.EndLocation.Lat, leg.EndLocation.Lng));
+                }
+                //loop through data and sum all baddies
+                List<TIntersection> badIntersections = new List<TIntersection>();
+                const double THRESHOLD = 0.0005;
+                int[] count = new int[] { 0, 0, 0, 0, 0 };
+                foreach (Coordinates coords in intersections)
+                {
+                    //reset count
+                    count[0] = 0;
+                    count[1] = 0;
+                    count[2] = 0;
+                    count[3] = 0;
+                    count[4] = 0;
+                    foreach (Intersection i in data)
+                    {
+                        //check if its close, if so, increase the count
+
+                        if (Math.Abs((double)(i.lat - coords.lat)) <= THRESHOLD)
+                        {
+                            if (Math.Abs((double)(i.lng - coords.lng)) <= THRESHOLD)
+                            {
+                                count[0] += i.COUNT_5;
+                                count[1] += i.COUNT_4;
+                                count[2] += i.COUNT_3;
+                                count[3] += i.COUNT_2;
+                                count[4] += i.COUNT_1;
+                            }
+                        }
+                    }
+                    //Add the in total info
+                    badIntersections.Add(new TIntersection(0, (double)coords.lat, (double)coords.lng, count[0], count[1], count[2], count[3], count[4]));
+                }
+
+                paths.Add(new possiblePath(badIntersections));
+
+            }
+
+            List<int> scores = new List<int>();
+
+            foreach (possiblePath p in paths)
+            {
+                scores.Add(p.score());
+            }
+
+            int index = 0;
+            int bestScore = 0;
+            //Find the route with the best score
+            if (paths.Count() != 0)
+            {
+                int lowestIndex = 0;
+                int lowestScore = scores[0];
+                for (int i = 0; i < scores.Count();i++) 
+                {
+                    if(scores[i] < lowestScore)
+                    {
+                        lowestIndex = i;
+                        lowestScore = scores[i];
+                    }
+                }
+                index = lowestIndex;
+            }
+            possiblePath bestPath = paths[index];
+            bestScore = scores[index];
+            bool only = scores.Count() == 1;
+            string mapUrl;
+            string viewUrl;
+            
+
+            double rightBound = (double)directionResponse.Routes[0].Bounds.Northeast.Lat;
+            double topBound = (double)directionResponse.Routes[0].Bounds.Northeast.Lng;
+            double leftBound = (double)directionResponse.Routes[0].Bounds.Southwest.Lat;
+            double lowerBound = (double)directionResponse.Routes[0].Bounds.Southwest.Lng;
+            List<Coordinates> accidents = new List<Coordinates>();
+            foreach (Intersection i in data)
+            {
+                if (i.lat < rightBound && i.lat > leftBound)
+                {
+                    if (i.lng < topBound && i.lng > lowerBound)
+                    {
+                        accidents.Add(new Coordinates( i.lat,i.lng));
+                    }
+                }
+            }
+
+            mapUrl = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyDbMfrJkOsAaEwi7fHIYoq8vTRhdvpDE3A" +
+                        "&origin=" + sri.origin.ToString() +
+                        "&destination=" + sri.destination.ToString() +
+                        "&mode=driving";
+
+            //craft marker list
+            string markers = "";
+            string point = "";
+            foreach (Coordinates c in accidents)
+            {
+                markers += "|" + c.lat + "," + c.lng;
+                point += ","+c.lat + "," + c.lng;
+                
+            }
+            point = point.Substring(1);
+
+            //put markers on intersections
+            string markerUrl = "https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDbMfrJkOsAaEwi7fHIYoq8vTRhdvpDE3A " +
+                        "&size=400x400 &markers=" + markers +
+                        "&maptype = roadmap";
+
+
+            viewUrl = "https://www.google.com/maps/embed/v1/streetview?key=AIzaSyDbMfrJkOsAaEwi7fHIYoq8vTRhdvpDE3A " +
+                       "&location=" + bestPath.worstOne.lat.ToString() + "," + bestPath.worstOne.lng.ToString() +
+                       "&heading=210" +
+                       "&pitch=10" +
+                       "&fov=90";
+
+            var lcenter = (rightBound+leftBound) / 2;
+            var vcenter = (topBound + lowerBound) / 2;
+
+            //for the best path
+            string intPath = "";
+            foreach (TIntersection ti in bestPath.intersections)
+            {
+                intPath += "," + ti.lat + "," + ti.lng;
+            }
+            intPath = intPath.Substring(1);
+            ViewBag.pathing = intPath;
+            ViewBag.viewUrl = viewUrl;
+            ViewBag.mapUrl = mapUrl;
+            ViewBag.markerUrl = markerUrl;
+            ViewBag.only = only;
+            ViewBag.score = bestScore;
+            ViewBag.routesUsed = paths.Count();
+            ViewBag.accidents = point;
+            ViewBag.scenter = vcenter;
+            ViewBag.wcenter = lcenter;
+
+
+
+            //Console.WriteLine(scores);
+            Console.WriteLine(paths);
+
+
+
+            //At this point we have all the goods
+            
+
+            return View("RouteResults");
+        }
+
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
