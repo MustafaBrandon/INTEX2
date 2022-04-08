@@ -12,6 +12,7 @@ namespace INTEX.Models
             _context = temp;
         }
 
+        public IQueryable<Intersection> Intersections => _context.Intersections;
         public IQueryable<Crash> Utah_Crashes => _context.Utah_Crashes;
         public IQueryable<Severity> Severity => _context.Severity;
 
