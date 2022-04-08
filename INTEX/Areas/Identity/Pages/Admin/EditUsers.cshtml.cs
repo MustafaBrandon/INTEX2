@@ -106,18 +106,16 @@ namespace INTEX.Areas.Identity.Pages.Admin
                         {
                             continue;
                         }
-                        else
-                        {
-                            return RedirectToPage("./RoleDetails", RoleId);
-                        }
+
+                         return RedirectToPage("./RoleDetails", new { id = roleId });
                     }
                 }
 
-                return RedirectToPage("./RoleDetails", RoleId);
+                return RedirectToPage("./RoleDetails", new { id = roleId });
 
             }
 
-                return Page();
+            return Page();
         }
     }
 }
