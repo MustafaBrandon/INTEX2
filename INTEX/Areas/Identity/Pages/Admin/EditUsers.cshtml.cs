@@ -19,15 +19,26 @@ namespace INTEX.Areas.Identity.Pages.Admin
             _roleManager = roleManager;
             _userManager = userManager;
 
-            Users = new List<ApplicationUser>();
+            UserIds = new List<string>();
+            UserNames = new List<string>();
+            FirstNames = new List<string>();
+            LastNames = new List<string>();
             IsSelected = new List<bool>();
         }
 
-        public List<ApplicationUser> Users { get; set; }
+        [BindProperty]
+        public List<string> UserIds { get; set; }
+
+        [BindProperty]
         public List<bool> IsSelected { get; set; }
 
+        [BindProperty]
         public string RoleId { get; set; }
+
         public string RoleName { get; set; }
+        public List<string> UserNames { get; set; }
+        public List<string> FirstNames { get; set; }
+        public List<string> LastNames { get; set; }
 
 
         public async Task<IActionResult> OnGetAsync(string roleId)
@@ -44,7 +55,10 @@ namespace INTEX.Areas.Identity.Pages.Admin
 
             foreach (var user in _userManager.Users.ToList())
             {
-                Users.Add(user);
+                UserIds.Add(user.Id);
+                UserNames.Add(user.UserName);
+                FirstNames.Add(user.FirstName);
+                LastNames.Add(user.LastName);
 
                 if (await _userManager.IsInRoleAsync(user, role.Name))
                 {
@@ -57,6 +71,51 @@ namespace INTEX.Areas.Identity.Pages.Admin
             }
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(List<string> userIds, List<bool> isSelected, string roleId)
+        {
+            if (ModelState.IsValid)
+            {
+                var role = await _roleManager.FindByIdAsync(roleId);
+
+                IdentityResult result = null;
+
+                for(int i = 0; i < userIds.Count; i++)
+                {
+                    var user = await _userManager.FindByIdAsync(userIds[i]);
+
+                    if (isSelected[i] && !(await _userManager.IsInRoleAsync(user, role.Name)))
+                    {
+                        result = await _userManager.AddToRoleAsync(user, role.Name);
+                    }
+                    else if (!isSelected[i] && await _userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    if (result.Succeeded)
+                    {
+                        if (i < userIds.Count)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            return RedirectToPage("./RoleDetails", RoleId);
+                        }
+                    }
+                }
+
+                return RedirectToPage("./RoleDetails", RoleId);
+
+            }
+
+                return Page();
         }
     }
 }

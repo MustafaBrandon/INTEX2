@@ -36,6 +36,7 @@
     <None Remove="Amazon.Lambda.Core" />
     <None Remove="Newtonsoft.Json" />
     <None Remove="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+    <None Remove="Microsoft.AspNet.Identity.Owin" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />

@@ -422,7 +422,12 @@ namespace INTEX.Controllers
             return View();
         }
 
-        
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return RedirectToPage("AccessDenied");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+// Not Ready for Production
+
 namespace INTEX.Areas.Identity.Pages.Admin
 {
     public class CreateRoleModel : PageModel
@@ -30,31 +32,36 @@ namespace INTEX.Areas.Identity.Pages.Admin
             public string RoleName { get; set; }
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (ModelState.IsValid)
-            {
-                IdentityRole identityRole = new IdentityRole
-                {
-                    Name = Input.RoleName
-                };
-
-                IdentityResult result = await _roleManager.CreateAsync(identityRole);
-
-                if (result.Succeeded)
-                {
-                    // Where to go after role is created?
-                    return RedirectToPage("./Roles");
-                }
-
-                foreach (IdentityError error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-
-            }
-
-            return Page();
+            return RedirectToPage("./Roles");
         }
+
+        //public async Task<IActionResult> OnPostAsync()
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        IdentityRole identityRole = new IdentityRole
+        //        {
+        //            Name = Input.RoleName
+        //        };
+
+        //        IdentityResult result = await _roleManager.CreateAsync(identityRole);
+
+        //        if (result.Succeeded)
+        //        {
+        //            // Where to go after role is created?
+        //            return RedirectToPage("./Roles");
+        //        }
+
+        //        foreach (IdentityError error in result.Errors)
+        //        {
+        //            ModelState.AddModelError("", error.Description);
+        //        }
+
+        //    }
+
+        //    return Page();
+        //}
     }
 }

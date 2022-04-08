@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace INTEX.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private ICrashRepository _repo { get; set; }
@@ -68,6 +68,13 @@ namespace INTEX.Controllers
         {
             _repo.RemoveCrash(crash);
             return RedirectToAction("CrashInfo", new { Controller = "Home" });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return RedirectToPage("AccessDenied"); 
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

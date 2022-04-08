@@ -1,23 +1,11 @@
 ﻿@{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
-<div class="container bg-white rounded py-4 shadow my-4">
-    <h2>System Administration</h2>
+<div class="container bg-white rounded p-5 shadow my-4">
+    <a asp-page="Roles" class="text-decoration-none text-dark display-6">System Administration</a>
     <div>
         <hr />
-        <div class="row">
-            <div class="col-md-2">
-                <ul class="nav nav-pills flex-column">
-                    <li class="nav-item"><a class="nav-link" id="roles" asp-page="./Roles">Roles</a></li>
-                    <li class="nav-item"><a class="nav-link" id="createRole" asp-page="./CreateRole">Create Role</a></li>
-                    <li class="nav-item"><a class="nav-link" id="profile">Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" id="profile">Profile</a></li>
-
-                    @* Currently not supporting email management *@
-                    @*<li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>*@
-                </ul>
-            </div>
-            <div class="col-md-10">
+            <div class="m-3">
                 @RenderBody()
             </div>
         </div>

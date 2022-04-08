@@ -1,4 +1,5 @@
 ﻿using INTEX.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
@@ -53,6 +54,13 @@ namespace INTEX.Controllers
             ViewBag.Counties = _repo.Utah_Crashes.Select(x => x.COUNTY_NAME).Distinct().OrderBy(x => x).ToList();
 
             return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return RedirectToPage("AccessDenied");
         }
     }
 }

@@ -29,7 +29,10 @@ namespace INTEX
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeFolder("/Area/Identity/Pages/Admin");
+            });
 
             services.AddScoped<ICrashRepository, EFCrashRepository>();
 
@@ -69,6 +72,12 @@ namespace INTEX
                     await next();
                 });
             }
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Content-Security-Policy-Report-Only", "default-src 'self' use.fontawesome.com cdn.jsdelivr.net app.termly.io unpkg.com cdnjs.cloudflare.com www.w3.org 7o1vcvfox2.execute-api.us-east-1.amazonaws.com maps.googleapis.com www.google.com 'sha256-rwMOiOeVICH7/Cjy5SkreID3OOi5HTrit357k22hUDQ='; img-src * data:; style-src * 'self' data: 'unsafe-inline';");
+                await next();
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
