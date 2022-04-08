@@ -10,10 +10,10 @@
         <div class="col">
             <h3>Users in @Model.RoleName Role</h3>
         </div>
-        <div class="col-4">
-            @*Not Ready for Production*@
-            @*<a class="btn btn-secondary" asp-page="EditRole" asp-route-id="@Model.Id">Edit Role Name</a>*@
-            <a class="btn btn-primary float-right" asp-page="EditUsers" asp-route-roleId="@Model.Id">Edit Role Users</a>
+        <div class="col-5 text-center">
+            <a class="btn btn-danger" asp-page="DeleteRole" asp-route-id="@Model.Id">Delete Role</a>
+            <a class="btn btn-secondary" asp-page="UpdateRole" asp-route-id="@Model.Id">Update Role Name</a>
+            <a class="btn btn-primary" asp-page="EditUsers" asp-route-roleId="@Model.Id">Add/Remove Users</a>
         </div>
     </div>
     <div class="m-3 row">
