@@ -416,6 +416,12 @@ namespace INTEX.Controllers
             return View("RouteResults");
         }
 
+        [HttpGet]
+        public IActionResult CrashStats()
+        {
+            return View();
+        }
+
         
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
