@@ -56,8 +56,10 @@ namespace INTEX.Controllers
                 CurrentPage = pageNum
             };  
 
+            //Get the correct crashes for the correct page
             ViewBag.crashes = _repo.Utah_Crashes.Skip((pageNum - 1) * pageSize).Take(pageSize);
 
+            //Get the cities and counties for the dropdown filters
             ViewBag.Cities = _repo.Utah_Crashes.Select(x => x.CITY).Distinct().OrderBy(x => x).ToList();
             ViewBag.Counties = _repo.Utah_Crashes.Select(x => x.COUNTY_NAME).Distinct().OrderBy(x => x).ToList();
 
@@ -80,7 +82,7 @@ namespace INTEX.Controllers
                 crashes = crashes.Where(x => x.CRASH_DATETIME.Date == date);
             }
 
-            // Severity Filtering
+            // Severity Filtering - if none are selected filter nothing out, otherwise filter out the non selected ones
             if (!f.CRASH_SEVERITY_1 && !f.CRASH_SEVERITY_2 && !f.CRASH_SEVERITY_3 && !f.CRASH_SEVERITY_4 && !f.CRASH_SEVERITY_5) { }
             else
             {
@@ -116,7 +118,7 @@ namespace INTEX.Controllers
                 crashes = crashes.Where(x => x.COUNTY_NAME == f.COUNTY_NAME);
             }
 
-            // Flag Filtering
+            // Flag Filtering - for each flag selected, filter out any results not including that flag. For multiple flags, filter out all results not including all selected flags
             if (f.MAIN_ROAD_NAME != null)
             {
                 crashes = crashes.Where(x => x.MAIN_ROAD_NAME.Contains(f.MAIN_ROAD_NAME));
@@ -216,8 +218,10 @@ namespace INTEX.Controllers
         [HttpGet]
         public IActionResult CrashDetails(int id)
         {
+            //Get the crash to display the details for
             var crash = _repo.Utah_Crashes.FirstOrDefault(x => x.CRASH_ID == id);
             ViewBag.Severities = _repo.Severity.ToList();
+
             return View(crash);
         }
 
@@ -230,6 +234,8 @@ namespace INTEX.Controllers
         [HttpPost]
         public IActionResult SafeRoute(SafeRouteInput sri)
         {
+            //Determine the safest route out of the suggested google routes from one destination to another
+            //After determinging the safest route, pass it's data to the view to display maps of this safe route
             sri.origin = sri.origin.Replace(", ", ",").Replace(" ", "+");
             sri.destination = sri.destination.Replace(", ", ",").Replace(" ", "+");
 
@@ -251,14 +257,10 @@ namespace INTEX.Controllers
                 result = sr.ReadToEnd();
                 sr.Close();
             }
-            //await Generatoor.FireMisslesAsync();
-            //Console.WriteLine(result);
-            //await WriteAllText.writeJSON(result);
 
             var directionResponse = DirectionResponse.FromJson(result);
             var data = _repo.Intersections.ToList();
-            //Console.WriteLine(directionResponse.Routes[0].Legs[0].StartLocation.Lat);
-            //Append start
+
             List<possiblePath> paths = new List<possiblePath>();
 
             //FOR EACH ROUTE IN ROUTES
@@ -337,7 +339,7 @@ namespace INTEX.Controllers
             string mapUrl;
             string viewUrl;
             
-
+            //Set bounds of the map that we will use
             double rightBound = (double)directionResponse.Routes[index].Bounds.Northeast.Lat;
             double topBound = (double)directionResponse.Routes[index].Bounds.Northeast.Lng;
             double leftBound = (double)directionResponse.Routes[index].Bounds.Southwest.Lat;
@@ -406,12 +408,6 @@ namespace INTEX.Controllers
             ViewBag.scenter = vcenter;
             ViewBag.wcenter = lcenter;
             ViewBag.poly = encodedPolyline;
-
-
-
-            //Console.WriteLine(scores);
-            Console.WriteLine(paths);
-
 
 
             //At this point we have all the goods
