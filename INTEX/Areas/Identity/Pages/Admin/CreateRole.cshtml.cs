@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-// Not Ready for Production
-
 
 namespace INTEX.Areas.Identity.Pages.Admin
 {
@@ -35,36 +33,30 @@ namespace INTEX.Areas.Identity.Pages.Admin
             public string RoleName { get; set; }
         }
 
-        public async Task<IActionResult> OnGetAsync(string id)
+        public async Task<IActionResult> OnPostAsync()
         {
-            return RedirectToPage("./Roles");
+            if (ModelState.IsValid)
+            {
+                IdentityRole identityRole = new IdentityRole
+                {
+                    Name = Input.RoleName
+                };
+
+                IdentityResult result = await _roleManager.CreateAsync(identityRole);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToPage("./RoleDetails", identityRole.Id);
+                }
+
+                foreach (IdentityError error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+            }
+
+            return Page();
         }
-
-        //public async Task<IActionResult> OnPostAsync()
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        IdentityRole identityRole = new IdentityRole
-        //        {
-        //            Name = Input.RoleName
-        //        };
-
-        //        IdentityResult result = await _roleManager.CreateAsync(identityRole);
-
-        //        if (result.Succeeded)
-        //        {
-        //            // Where to go after role is created?
-        //            return RedirectToPage("./Roles");
-        //        }
-
-        //        foreach (IdentityError error in result.Errors)
-        //        {
-        //            ModelState.AddModelError("", error.Description);
-        //        }
-
-        //    }
-
-        //    return Page();
-        //}
     }
 }

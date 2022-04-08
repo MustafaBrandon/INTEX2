@@ -1,0 +1,21 @@
+﻿@page
+@model INTEX.Areas.Identity.Pages.Admin.DeleteRoleModel
+
+@{
+    ViewData["Title"] = "Delete Role";
+    Layout = "~/Areas/Identity/Pages/Admin/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="card-lg">
+        <form class="container" method="post">
+            <h4 class="card-title">Are you sure you want to delete the @Model.RoleName Role?</h4>
+            <h5 class="text-danger m-3">WARNING: This cannot be undone</h5>
+
+            <div class="float-right">
+                <button type="submit" class="btn btn-danger">Delete Role</button>
+                <a class="btn btn-secondary" asp-page="RoleDetails" asp-route-id="@Model.Id">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

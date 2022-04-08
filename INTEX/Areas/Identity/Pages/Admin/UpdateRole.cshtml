@@ -1,0 +1,25 @@
+﻿@page
+@model INTEX.Areas.Identity.Pages.Admin.UpdateRoleModel
+
+@{
+    ViewData["Title"] = "Roles";
+    Layout = "~/Areas/Identity/Pages/Admin/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="card-lg">
+        <form class="container" method="post">
+            <h2 class="card-title">Role ID: @Model.Id</h2>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row m-2 p-2">
+                <h3 class="col align-middle"><label asp-for="RoleName">Role Name:</label></h3>
+                <div class="col-10 form-group">
+                    <input asp-for="RoleName" class="form-control" />
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Set Role Name</button>
+            <a class="btn btn-secondary" asp-page="RoleDetails" asp-route-id="@Model.Id">Cancel</a>
+        </form>
+    </div>
+</div>
