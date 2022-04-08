@@ -6,4 +6,26 @@
     Layout = "~/Areas/Identity/Pages/Admin/_AdminLayout.cshtml";
 }
 
-Welcome to EditUsers
+<div class="container">
+    <form method="post">
+        <div class="card">
+            <div class="card-header">
+                <h3>@Model.RoleName</h3>
+            </div>
+            <div class="card-body">
+                @for (int i = 0; i < Model.Users.Count(); i++)
+            {
+                <div class="row">
+                    <div class="col">
+                        <label asp-for="@Model.IsSelected[i]"></label>
+                        <input type="checkbox" asp-for="@Model.IsSelected[i]" />
+
+                        <h3>@Model.Users[i].FirstName</h3>
+                        <h3>@Model.Users[i].LastName</h3>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+    </form>
+</div>

@@ -11,14 +11,6 @@ namespace INTEX.Areas.Identity.Pages.Admin
 {
     public class EditUsersModel : PageModel
     {
-        public List<string> UserIds { get; set; }
-        public List<string> UserNames { get; set; }
-        public List<string> FirstNames { get; set; }
-        public List<string> LastNames { get; set; }
-
-        public string RoleId { get; set; }
-        public bool IsSelected { get; set; }
-
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -26,26 +18,45 @@ namespace INTEX.Areas.Identity.Pages.Admin
         {
             _roleManager = roleManager;
             _userManager = userManager;
+
+            Users = new List<ApplicationUser>();
+            IsSelected = new List<bool>();
         }
 
-        //public async Task<IActionResult> OnGetAsync(string roleId)
-        //{
-        //    var role = await _roleManager.FindByIdAsync(roleId);
+        public List<ApplicationUser> Users { get; set; }
+        public List<bool> IsSelected { get; set; }
 
-        //    if (role == null)
-        //    {
-        //        return RedirectToPage("./Roles");
-        //    }
-
-        //    foreach (var user in _userManager.Users)
-        //    {
-        //        UserIds.Add(user.Id);
-        //        UserNames.Add(user.UserName);
-        //        FirstNames.Add(user.FirstName);
-        //        LastNames.Add(user.LastName);
-        //    }
+        public string RoleId { get; set; }
+        public string RoleName { get; set; }
 
 
-        //}
+        public async Task<IActionResult> OnGetAsync(string roleId)
+        {
+            var role = await _roleManager.FindByIdAsync(roleId);
+
+            if (role == null)
+            {
+                return RedirectToPage("./Roles");
+            }
+
+            RoleId = role.Id;
+            RoleName = role.Name;
+
+            foreach (var user in _userManager.Users.ToList())
+            {
+                Users.Add(user);
+
+                if (await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    IsSelected.Add(true);
+                }
+                else
+                {
+                    IsSelected.Add(false);
+                }
+            }
+
+            return Page();
+        }
     }
 }
