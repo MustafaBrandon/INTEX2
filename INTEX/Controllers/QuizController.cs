@@ -54,5 +54,67 @@ namespace INTEX.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public IActionResult DriverQuiz(BuzzfeedQuestions questions, QuizDriverData data)
+        {
+
+
+            if (questions.Question1 == "unrestrained")
+            {
+                data.unrestrained_True = true;
+            }
+            else if (questions.Question1 == "improper")
+            {
+                data.improper_restraint_True = true;
+            }
+
+            if (questions.Question2 == "danger")
+            {
+                data.bicyclist_involved_True = true;
+            }
+
+            if (questions.Question3 == "danger")
+            {
+                data.pedestrian_involved_True = true;
+            }
+
+            if (questions.Question4 == "danger")
+            {
+                data.dui_True = true;
+            }
+
+            if (questions.Question5 == "teen")
+            {
+                data.teenage_driver_involved_True = true;
+            }
+
+            if (questions.Question5 == "old")
+            {
+                data.older_driver_involved_True = true;
+            }
+
+            if (questions.Question6 == "danger")
+            {
+                data.drowsy_driving_True = true;
+            }
+
+            if (questions.Question7 == "danger")
+            {
+                data.distracted_driving_True = true;
+            }
+
+            var result = _session.Run(new List<NamedOnnxValue>
+            {
+                NamedOnnxValue.CreateFromTensor("float_input", data.AsTensor())
+            });
+            Tensor<string> score = result.First().AsTensor<string>();
+            var calculated = new QuizResult { PredictedValue = score.First() };
+            result.Dispose();
+
+            ViewBag.Calculated = calculated.PredictedValue;
+
+            return View();
+        }
     }
 }
