@@ -46,9 +46,9 @@ namespace INTEX
                 options.UseMySql(DbHelper.GetRDSConnectionString());
             });
 
-            services.AddSingleton<InferenceSession>(
-                new InferenceSession("wwwroot/crash_id_model.onnx")
-                );
+            //services.AddSingleton<InferenceSession>(
+            //    new InferenceSession("wwwroot/crash_id_model.onnx")
+            //    );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +65,7 @@ namespace INTEX
                 //Enable HSTS on site in production
                 app.Use(async (context, next) =>
                 {
-                    context.Response.Headers.Add("Strict-Transport-Security", "max-age-31536000;");
+                    context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000;");
                     await next();
                 });
             }
