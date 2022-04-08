@@ -1,4 +1,6 @@
-﻿let utmX = document.getElementById("utmX").value;
+﻿//Create maps for details page
+
+let utmX = document.getElementById("utmX").value;
 let utmY = document.getElementById("utmY").value;
 
 let lat;

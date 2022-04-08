@@ -1,5 +1,5 @@
 ﻿function initMap() {
-
+    //Create maps for route finder
 
     var data = document.getElementById("data").value;
     var south = document.getElementById("south").value;
@@ -10,9 +10,9 @@
     var ev = document.getElementById("ev").value;
     var pathing = document.getElementById("pathing").value;
     var poly = document.getElementById("poly").value;
-    //console.log(data);
+
     const mainArray = data.split(",");
-    //console.log(mainArray);
+
     let heatmapData = [];
     for (let i = 0; i < mainArray.length; i += 2) {
         heatmapData.push(new google.maps.LatLng(mainArray[i], mainArray[i + 1]));
