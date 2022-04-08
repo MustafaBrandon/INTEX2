@@ -1,0 +1,21 @@
+﻿@page
+@model INTEX.Areas.Identity.Pages.Admin.CreateRoleModel
+
+@{
+    ViewData["Title"] = "New Role";
+    Layout = "~/Areas/Identity/Pages/Admin/_AdminLayout.cshtml";
+}
+
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+    <form method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form=group my-2">
+            <label asp-for="Input.RoleName"></label>
+            <input asp-for="Input.RoleName" class="form-control" />
+            <span asp-validation-for="Input.RoleName" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary my-3">Create Role</button>
+    </form>
+</div>
