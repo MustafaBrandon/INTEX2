@@ -15,7 +15,6 @@ using Microsoft.Extensions.Logging;
 
 namespace INTEX.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
