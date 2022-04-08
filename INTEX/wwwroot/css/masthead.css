@@ -17,3 +17,7 @@
     background-repeat: no-repeat;
     color: white;
 }
+
+.bg-black {
+    background-color: #000000;
+}

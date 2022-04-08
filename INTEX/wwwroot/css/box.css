@@ -10,3 +10,7 @@
     font-size: xx-large;
     text-shadow: -1px 1px 1px #000, 1px 1px 1px #000, 1px -1px 0 #000, -1px -1px 0 #000;
 }
+
+.bg-black {
+    background-color: #000000;
+}
