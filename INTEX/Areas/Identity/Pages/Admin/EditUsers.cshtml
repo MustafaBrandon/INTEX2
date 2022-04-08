@@ -1,0 +1,32 @@
+﻿@page
+@model INTEX.Areas.Identity.Pages.Admin.EditUsersModel
+
+@{
+    ViewData["Title"] = "New Role";
+    Layout = "~/Areas/Identity/Pages/Admin/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <form method="post">
+            <div class="">
+                <h3>Users in @Model.RoleName Role</h3>
+            </div>
+            <div class="card m-3 p-3 shadow-sm">
+                @for (int i = 0; i < Model.UserIds.Count(); i++)
+                {
+                    <div class="container">
+                        <div class="form-group form-switch">
+                            <input type="hidden" asp-for="@Model.UserIds[i]" />
+                            <input type="checkbox" class="form-check-input" role="button" asp-for="@Model.IsSelected[i]" />
+                            <label asp-for="@Model.IsSelected[i]"><strong>@Model.UserNames[i]</strong> - @Model.FirstNames[i] @Model.LastNames[i]</label>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="my-4">
+                <a class="btn btn-secondary float-right" asp-page="RoleDetails" asp-route-id="@Model.RoleId">Cancel</a>
+                <button type="submit" class="float-right btn btn-primary mx-2">Update Users</button>
+            </div>
+        
+    </form>
+</div>

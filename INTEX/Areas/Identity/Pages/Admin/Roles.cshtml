@@ -1,0 +1,44 @@
+﻿@page
+@model INTEX.Areas.Identity.Pages.Admin.RolesModel
+
+@{
+    ViewData["Title"] = "Roles";
+    Layout = "~/Areas/Identity/Pages/Admin/_AdminLayout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row mb-4">
+        <h3 class="col">Authorization @ViewData["Title"]</h3>
+        <div class="col-2 text-center">
+            <a class="btn btn-primary btn-lg" asp-page="CreateRole">Create Role</a>
+        </div>
+    </div>
+    @if (Model.Roles.Any())
+    {
+        @foreach (var role in Model.Roles)
+        {
+            <a class="card m-3 w-100 text-left shadow-sm rounded text-decoration-none text-dark bg-light" asp-page="RoleDetails" asp-route-id="@role.Id">
+                <div class="card-body">
+                    <div class="col">
+                        <h3 class="card-title m-1 p-1">@role.Name</h3>
+                    </div>
+                </div>
+            </a>
+        }
+    }
+
+    @*else
+    {
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title m-1 p-1">You currently have no roles</h3>
+            </div>
+            <div class="card-body">
+                <h5 class="mb-3">Click the button below to create a new role</h5>
+                <a class="btn btn-primary" asp-page="CreateRole">Create Role</a>
+            </div>
+        </div>
+    }*@
+
+</div>

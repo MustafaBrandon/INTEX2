@@ -10,6 +10,7 @@ namespace INTEX.Models
 {
     public static class DbHelper
     {
+        //Used to get sensitive data from the environment and build the connection string so no sensitive data is exposed
         public static string GetRDSConnectionString(string dbname = "UCAPS")
         {
             if (string.IsNullOrEmpty(dbname)) return null;

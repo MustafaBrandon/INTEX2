@@ -23,9 +23,11 @@ namespace INTEX.Areas.Identity
                     options.UseMySql(DbHelper.GetRDSConnectionString("Identity")));
 
                 services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<INTEXDbContext>();
 
                 services.AddTransient<IEmailSender, SendGridEmailSender>();
+
             });
         }
     }

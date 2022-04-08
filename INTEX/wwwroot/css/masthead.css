@@ -1,0 +1,23 @@
+﻿.masthead {
+    height: 30vh;
+    min-height: 450px;
+    background-image: url('/img/roads.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+.bodyhead {
+    height: 30vh;
+    min-height: 450px;
+    background-image: url('/img/accident.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+.bg-black {
+    background-color: #000000;
+}

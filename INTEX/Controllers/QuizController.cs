@@ -1,4 +1,5 @@
 ﻿using INTEX.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
@@ -54,6 +55,7 @@ namespace INTEX.Controllers
 
             return View();
         }
+
 
         [HttpPost]
         public IActionResult DriverQuiz(BuzzfeedQuestions questions, QuizDriverData data)
@@ -115,6 +117,14 @@ namespace INTEX.Controllers
             ViewBag.Calculated = calculated.PredictedValue;
 
             return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return RedirectToPage("AccessDenied");
+
         }
     }
 }

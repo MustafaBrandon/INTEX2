@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿
+@using Microsoft.AspNetCore.Identity
+@using INTEX.Areas.Identity.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -37,8 +45,19 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Quiz" asp-action="Calculator">Calculator</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="SafeRoute">Safe Router</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Quiz" asp-action="DriverQuiz">Quiz</a>
                         </li>
+
+                        @* Only allow Admin tab to show for Admin users *@
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="Identity" asp-page="/Admin/Roles">Admin</a>
+                            </li>
+                        }
 
                     </ul>
                 </div>
@@ -49,14 +68,14 @@
         </nav>
     </header>
     <div>
-        <main role="main" class="pb-3 bg-light rounded">
+        <main role="main" class="bg-light rounded">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer bg-white text-muted">
+    <footer class="footer bg-dark text-white">
         <div class="container">
-            &copy; Utah CAPS 2022 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; Utah CAPS 2022 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Our Privacy Policy</a>
         </div>
     </footer>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -67,17 +86,4 @@
 </body>
 </html>
 
-<style>
-    .box {
-        display: flex;
-        height: 60px;
-        width: 60px;
-        border-radius: 10%;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-weight: bolder;
-        font-size: xx-large;
-        text-shadow: -1px 1px 1px #000, 1px 1px 1px #000, 1px -1px 0 #000, -1px -1px 0 #000;
-    }
-</style>
+<link rel="stylesheet" href="~/css/box.css" />

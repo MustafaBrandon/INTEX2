@@ -1,0 +1,37 @@
+﻿@model SafeRouteInput
+
+
+
+
+<div class="container">
+    <div class="card p-3 mt-3">
+        <h2>Safe Route Recommender</h2>
+
+        <h6>Enter from where you will go and where you are going and our algorithm will tell you the best path or places to look out!</h6>
+        <h6 class="text-danger font-weight-bold">** Complex paths will be slow **</h6>
+
+        <form asp-controller="Home" asp-action="SafeRoute" method="post">
+            <div class="row text-center">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="origin">Origin address:</label><input class="form-control" asp-for="origin" type="text" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="destination">Destination address:</label><input class="form-control" asp-for="destination" type="text" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-secondary" type="submit">Find Best Route</button>
+            </div>
+        </form>
+    </div>
+
+    @if (ViewBag.score != null)
+    {
+        <partial name="RouteResults"></partial>
+    }
+</div>

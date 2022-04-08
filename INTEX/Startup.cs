@@ -31,6 +31,14 @@ namespace INTEX
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdmin", policy =>
+                {
+                    policy.RequireRole("Admin");
+                });
+            });
+
             services.AddScoped<ICrashRepository, EFCrashRepository>();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -61,9 +69,15 @@ namespace INTEX
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+
+                //Enable HSTS on site in production
+                app.Use(async (context, next) =>
+                {
+                    context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000;");
+                    await next();
+                });
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -71,6 +85,13 @@ namespace INTEX
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            //Enable CSP Header
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self' use.fontawesome.com cdn.jsdelivr.net app.termly.io unpkg.com cdnjs.cloudflare.com www.w3.org 7o1vcvfox2.execute-api.us-east-1.amazonaws.com maps.googleapis.com www.google.com ajax.aspnetcdn.com 'sha256-rwMOiOeVICH7/Cjy5SkreID3OOi5HTrit357k22hUDQ=' 'sha384-ifv0TYDWxBHzvAk2Z0n8R434FL1Rlv/Av18DXE43N/1rvHyOG4izKst0f2iSLdds' 'sha384-rZfj/ogBloos6wzLGpPkkOr/gpkBNLZ6b6yLy4o+ok+t/SAKlL5mvXLr0OXNi1Hp' 'sha256-rwMOiOeVICH7/Cjy5SkreID3OOi5HTrit357k22hUDQ='; img-src * data:; style-src * 'self' data: 'unsafe-inline';");
+                await next();
+            });
 
             app.UseEndpoints(endpoints =>
             {

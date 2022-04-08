@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<div class="container bg-white rounded p-5 shadow my-4">
+    <a asp-page="Roles" class="text-decoration-none text-dark display-6">System Administration</a>
+    <div>
+        <hr />
+            <div class="m-3">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</div>

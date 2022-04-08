@@ -1,0 +1,50 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="card mt-3 p-3">
+    <h2>Route Results:</h2>
+
+    <h4>UCAPS Danger score: @ViewBag.score</h4>
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <div class="col">
+                    <h5>Safest Route over a heatmap of accidents in the immediate area</h5>
+                    <div id="map" style="height:400px;width:600px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <h5>@ViewBag.routesUsed routes were observed for this result.</h5>
+            <div>
+                <iframe width="600"
+                        height="400"
+                        frameborder="0" style="border:0"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="@ViewBag.mapUrl"
+                        loading="lazy"
+                        allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="data" value="@ViewBag.accidents" />
+<input type="hidden" id="south" value="@ViewBag.scenter" />
+<input type="hidden" id="west" value="@ViewBag.wcenter" />
+<input type="hidden" id="sl" value="@ViewBag.sl" />
+<input type="hidden" id="sv" value="@ViewBag.sv" />
+<input type="hidden" id="el" value="@ViewBag.el" />
+<input type="hidden" id="ev" value="@ViewBag.ev" />
+<input type="hidden" id="pathing" value="@ViewBag.pathing" />
+<input type="hidden" id="poly" value="@ViewBag.poly" />
+
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbMfrJkOsAaEwi7fHIYoq8vTRhdvpDE3A&libraries=visualization,geometry&callback=initMap">
+</script>
+<script src="~/js/heatMap.js"></script>
