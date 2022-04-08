@@ -8,29 +8,28 @@
 
 
 <div class="container">
-    <h2>@ViewData["Title"]</h2>
-
-    <a class="btn btn-primary" asp-page="CreateRole">Create Role</a>
-
+    <div class="row mb-4">
+        <h3 class="col">Authorization @ViewData["Title"]</h3>
+        <div class="col-2 text-center">
+            @*Not Ready for Production*@
+            @*<a class="btn btn-primary btn-lg" asp-page="CreateRole">Create Role</a>*@
+        </div>
+    </div>
     @if (Model.Roles.Any())
     {
         @foreach (var role in Model.Roles)
         {
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title m-1 p-1">@role.Id</h3>
-                </div>
+            <a class="card m-3 w-100 text-left shadow-sm rounded text-decoration-none text-dark bg-light" asp-page="RoleDetails" asp-route-id="@role.Id">
                 <div class="card-body">
-                    <h5 class="mb-3">@role.Name</h5>
+                    <div class="col">
+                        <h3 class="card-title m-1 p-1">@role.Name</h3>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a class="btn btn-light border" asp-page="EditRole" asp-route-id="@role.Id">Edit</a>
-                    <a class="btn btn-danger border">Delete</a>
-                </div>
-            </div>
+            </a>
         }
     }
-    else
+
+    @*else
     {
         <div class="card">
             <div class="card-header">
@@ -41,6 +40,6 @@
                 <a class="btn btn-primary" asp-page="CreateRole">Create Role</a>
             </div>
         </div>
-    }
+    }*@
 
 </div>

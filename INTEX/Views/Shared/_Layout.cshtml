@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿
+@using Microsoft.AspNetCore.Identity
+@using INTEX.Areas.Identity.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,19 +35,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="CrashInfo">Crashes</a>
                         </li>
-                        
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Quiz" asp-action="Calculator">Calculator</a>
                         </li>
                         <li class="nav-item">
-
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="SafeRoute">Safe Router</a>
                         </li>
                         <li class="nav-item">
-
                             <a class="nav-link text-light" asp-area="" asp-controller="Quiz" asp-action="DriverQuiz">Quiz</a>
-
                         </li>
+
+                        @* Only allow Admin tab to show for Admin users *@
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="Identity" asp-page="/Admin/Roles">Admin</a>
+                            </li>
+                        }
 
                     </ul>
                 </div>

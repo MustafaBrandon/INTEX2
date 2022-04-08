@@ -18,7 +18,9 @@
             </div>
 
             @* Search Functionality *@
-            @if (SignInManager.IsSignedIn(User))
+
+            @* Only allow Admin to create new Crash records *@
+            @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
             {
                 <div class="col-8 my-2">
                     <div class="input-group mb-3 shadow-sm">

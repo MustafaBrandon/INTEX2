@@ -45,7 +45,6 @@
 @if (!Model.HasAuthenticator)
 {
     <div>
-        <h6 class="mt-5">You do not have 2FA setup:</h6>
         <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-light border">Add Authenticator App</a>
     </div>
 }

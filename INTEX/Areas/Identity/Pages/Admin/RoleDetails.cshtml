@@ -1,0 +1,30 @@
+﻿@page
+@model INTEX.Areas.Identity.Pages.Admin.RoleDetailsModel
+@{
+    ViewData["Title"] = "Role Details";
+    Layout = "~/Areas/Identity/Pages/Admin/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>Users in @Model.RoleName Role</h3>
+        </div>
+        <div class="col-4">
+            @*Not Ready for Production*@
+            @*<a class="btn btn-secondary" asp-page="EditRole" asp-route-id="@Model.Id">Edit Role Name</a>*@
+            <a class="btn btn-primary float-right" asp-page="EditUsers" asp-route-roleId="@Model.Id">Edit Role Users</a>
+        </div>
+    </div>
+    <div class="m-3 row">
+        @for (int i = 0; i < Model.UserNames.Count; i++)
+            {
+            <div class="col-6">
+                <div class="card m-2 p-3 shadow-sm">
+                    <h4 class="text-uppercase">@Model.UserNames[i]</h4>
+                    <h5>@Model.FirstNames[i] @Model.LastNames[i]</h5>
+                </div>
+            </div>
+            }
+    </div>
+</div>

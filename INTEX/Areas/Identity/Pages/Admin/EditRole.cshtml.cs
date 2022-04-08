@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+// Not Ready for Production
+
 namespace INTEX.Areas.Identity.Pages.Admin
 {
     public class EditRoleModel : PageModel
@@ -36,44 +38,45 @@ namespace INTEX.Areas.Identity.Pages.Admin
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            var role = await _roleManager.FindByIdAsync(id);
+            //var role = await _roleManager.FindByIdAsync(id);
 
-            if (role == null)
-            {
-                return RedirectToPage("./Roles");
-            }
+            //if (role == null)
+            //{
+            //    return RedirectToPage("./Roles");
+            //}
 
-            Id = role.Id;
-            RoleName = role.Name;
+            //Id = role.Id;
+            //RoleName = role.Name;
 
-            foreach (var user in await _userManager.GetUsersInRoleAsync(RoleName))
-            {
-                Users.Add(user.UserName);
-            }
+            //foreach (var user in await _userManager.GetUsersInRoleAsync(RoleName))
+            //{
+            //    Users.Add(user.UserName);
+            //}
 
-            return Page();
+            //return Page();
+            return RedirectToPage("./Roles");
         }
 
-        public async Task<IActionResult> OnPostAsync(string RoleName, string Id)
-        {
-            if (ModelState.IsValid)
-            {
-                var role = await _roleManager.FindByIdAsync(Id);
-                role.Name = RoleName;
-                var result = await _roleManager.UpdateAsync(role);
+        //public async Task<IActionResult> OnPostAsync(string RoleName, string Id)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var role = await _roleManager.FindByIdAsync(Id);
+        //        role.Name = RoleName;
+        //        var result = await _roleManager.UpdateAsync(role);
 
-                if (result.Succeeded)
-                {
-                    return RedirectToPage("./Roles");
-                }
+        //        if (result.Succeeded)
+        //        {
+        //            return RedirectToPage("./Roles");
+        //        }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
+        //        foreach (var error in result.Errors)
+        //        {
+        //            ModelState.AddModelError("", error.Description);
+        //        }
+        //    }
 
-            return Page();
-        }
+        //    return Page();
+        //}
     }
 }
