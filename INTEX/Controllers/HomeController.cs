@@ -338,10 +338,10 @@ namespace INTEX.Controllers
             string viewUrl;
             
 
-            double rightBound = (double)directionResponse.Routes[0].Bounds.Northeast.Lat;
-            double topBound = (double)directionResponse.Routes[0].Bounds.Northeast.Lng;
-            double leftBound = (double)directionResponse.Routes[0].Bounds.Southwest.Lat;
-            double lowerBound = (double)directionResponse.Routes[0].Bounds.Southwest.Lng;
+            double rightBound = (double)directionResponse.Routes[index].Bounds.Northeast.Lat;
+            double topBound = (double)directionResponse.Routes[index].Bounds.Northeast.Lng;
+            double leftBound = (double)directionResponse.Routes[index].Bounds.Southwest.Lat;
+            double lowerBound = (double)directionResponse.Routes[index].Bounds.Southwest.Lng;
             List<Coordinates> accidents = new List<Coordinates>();
             foreach (Intersection i in data)
             {
@@ -387,6 +387,9 @@ namespace INTEX.Controllers
 
             //for the best path
             string intPath = "";
+            var myBestPathWithWeirdName = directionResponse.Routes[index];
+
+            var encodedPolyline = myBestPathWithWeirdName.OverviewPolyline.Points;
             foreach (TIntersection ti in bestPath.intersections)
             {
                 intPath += "," + ti.lat + "," + ti.lng;
@@ -402,6 +405,7 @@ namespace INTEX.Controllers
             ViewBag.accidents = point;
             ViewBag.scenter = vcenter;
             ViewBag.wcenter = lcenter;
+            ViewBag.poly = encodedPolyline;
 
 
 
@@ -413,7 +417,7 @@ namespace INTEX.Controllers
             //At this point we have all the goods
             
 
-            return View("RouteResults");
+            return View();
         }
 
         [HttpGet]
