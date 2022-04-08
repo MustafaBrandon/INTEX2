@@ -27,7 +27,7 @@
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: provo,
-        zoom: 13,
+        zoom: 12,
         mapTypeId: 'satellite'
     });
 
