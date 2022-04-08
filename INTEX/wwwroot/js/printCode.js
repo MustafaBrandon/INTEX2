@@ -1,6 +1,8 @@
-﻿new QRCode(document.getElementById("qrCode"),
+﻿console.log(document.getElementById("qrString").value)
+
+new QRCode(document.getElementById("qrCode"),
     {
-        text: "@Html.Raw(Model.AuthenticatorUri)",
+        text: document.getElementById("qrString").value,
         width: 175,
         height: 175
     });
