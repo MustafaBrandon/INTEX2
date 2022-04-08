@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using INTEX.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace INTEX.Areas.Identity.Pages.Admin
 {
+    [Authorize(Policy = "RequireAdmin")]
     public class RoleDetailsModel : PageModel
     {
         private readonly RoleManager<IdentityRole> _roleManager;

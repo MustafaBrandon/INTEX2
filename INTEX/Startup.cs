@@ -29,9 +29,14 @@ namespace INTEX
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddRazorPages(options =>
+            services.AddRazorPages();
+
+            services.AddAuthorization(options =>
             {
-                options.Conventions.AuthorizeFolder("/Area/Identity/Pages/Admin");
+                options.AddPolicy("RequireAdmin", policy =>
+                {
+                    policy.RequireRole("Admin");
+                });
             });
 
             services.AddScoped<ICrashRepository, EFCrashRepository>();
@@ -49,9 +54,9 @@ namespace INTEX
                 options.UseMySql(DbHelper.GetRDSConnectionString());
             });
 
-            services.AddSingleton<InferenceSession>(
-                new InferenceSession("wwwroot/crash_id_model.onnx")
-                );
+            //services.AddSingleton<InferenceSession>(
+            //    new InferenceSession("wwwroot/crash_id_model.onnx")
+            //    );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
