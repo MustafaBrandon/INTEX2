@@ -36,12 +36,14 @@
     <None Remove="Amazon.Lambda.Core" />
     <None Remove="Newtonsoft.Json" />
     <None Remove="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+    <None Remove="Areas\Identity\Pages\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
     <Folder Include="Views\Admin\" />
     <None Remove="Infrastructure\" />
     <None Remove="Models\ViewModels\" />
+    <Folder Include="Areas\Identity\Pages\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\js\qrcode.min.js" />
