@@ -15,7 +15,9 @@ namespace INTEX.Controllers
         private ICrashRepository _repo { get; set; }
         private InferenceSession _session;
 
-        public QuizController(InferenceSession session, ICrashRepository temp)
+        public QuizController(
+            InferenceSession session,
+            ICrashRepository temp)
         {
             _session = session;
             _repo = temp;

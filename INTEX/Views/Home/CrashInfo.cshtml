@@ -13,7 +13,7 @@
 <div class="container">
     <form class="px-1" method="post" asp-action="CrashInfo" asp-route-pageNum="1">
         <div class="row mt-3">
-            <div class="col-2">
+            <div class="col-3">
                 <h1 class="text-center">Crash Log</h1>
             </div>
 
@@ -22,7 +22,7 @@
             @* Only allow Admin to create new Crash records *@
             @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
             {
-                <div class="col-8 my-2">
+                <div class="col-7 my-2">
                     <div class="input-group mb-3 shadow-sm">
                         <input type="text" class="form-control" placeholder="Search By Road Name" asp-for="MAIN_ROAD_NAME">
                         <div class="input-group-append">
