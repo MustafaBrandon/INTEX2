@@ -10,7 +10,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<div class="container">
+<div class="container pb-5">
     <form class="px-1" method="post" asp-action="CrashInfo" asp-route-pageNum="1">
         <div class="row mt-3">
             <div class="col-3">
@@ -36,7 +36,7 @@
             }
             else
             {
-            <div class="col-10 my-2">
+            <div class="col-9 my-2">
                 <div class="input-group mb-3 shadow-sm">
                     <input type="text" class="form-control" placeholder="Search By Road Name" asp-for="MAIN_ROAD_NAME">
                     <div class="input-group-append">
@@ -228,6 +228,8 @@
             </div>
         </div>
     </form>
+</div>
+<div class="m-5">
 </div>
 
 <link rel="stylesheet" href="~/css/bgColors.css" />
